@@ -1,0 +1,18 @@
+/* .event-list {
+    list-style: none;
+    margin: auto auto;
+    padding: 0.25rem 0;
+    width: 90%;
+    max-width: 40rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+  } */
+
+
+  .event-list {
+    display: flex;
+    flex-wrap: wrap;
+    
+  }
