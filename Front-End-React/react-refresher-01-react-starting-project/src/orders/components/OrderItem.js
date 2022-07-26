@@ -57,21 +57,21 @@ const OrderItem = props => {
             <Avatar image={`http://localhost:8000/${props.event.image}`} alt={props.event.name} />
           </div>
           <div className="user-item__info">
-            <h2>{props.userName}</h2>
-            <h2>{props.event.title}</h2>
+           { auth.role === 'agent'  && <h2>{props.userName}</h2>}
+           { <h2>{props.event.title}</h2>}
             <h3>
               {props.status} 
             </h3>
           </div>
           <div className='btn'>
           {/* <Button   onClick={payHandler}>Pay</Button> */}
-          <StripeCheckout
+          {auth.role === 'user' &&<StripeCheckout
           token={({id})=>sendReq(id)}
           stripeKey="pk_test_51LEPLnSDY8ulaATOUQ7J7uKs8AGP5sq0HiWRYqqIBD7pwJiHIiF4QQJf1Qqv69B7r9kFw74InqZc3x3Vns2zOq6k00EZTQxL8j"
           amout={props.event.price * 100}
           email={auth.currentUser.email}
 
-          ></StripeCheckout>
+          ></StripeCheckout>}
           <Button danger onClick={cancelOrder}> Cancel </Button> 
           </div>       
            </div>

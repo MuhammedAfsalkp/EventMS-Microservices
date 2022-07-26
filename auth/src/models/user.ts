@@ -8,6 +8,7 @@ interface UserAttrs {
     email: string;
     password: string;
     role: string;
+    isMax: boolean;
 }
 
 //An interface that cdescribes the properties
@@ -24,6 +25,7 @@ interface UserDoc extends mongoose.Document{
     password: string;
     userName: string;
     role: string;
+    isMax: boolean;
 
 }
 
@@ -50,6 +52,11 @@ const userSchema = new mongoose.Schema({
         default:'user',
         enum:['user','agent']
 
+    },
+    isMax:{
+        type: Boolean,
+        required: true,
+        default: false
     }
 },{
     toJSON:{

@@ -2,11 +2,13 @@ import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/user';
+import { AgentCreatedPublisher } from '../events/publishers/agent-created-publisher';
 
 // import { validateRequest } from '../../../common/src/middlewares/validate-request';
 // import { BadRequestError } from '../../../common/src/errors/bad-request-error';
 import { validateRequest } from '@iyaa-eventms/common';
 import { BadRequestError } from '@iyaa-eventms/common';
+import { natsWrapper } from '../nats-wrapper';
 
 
 const router = express.Router();
@@ -22,6 +24,7 @@ router.post( "/api/users/signup",
   async (req: Request, res: Response) => {
      console.log("working")
     const { email,role,userName,password } = req.body;
+    const isMax = false;
     const existingUser = await User.findOne({email});
     if(existingUser){
       console.log('Email in use');
@@ -29,7 +32,7 @@ router.post( "/api/users/signup",
      
     }
 
-    const user = User.build({email,password,role,userName});
+    const user = User.build({email,password,role,userName,isMax});
     await user.save();
 
     // Generate jwt
@@ -37,12 +40,22 @@ router.post( "/api/users/signup",
       id:user.id,
       email:user.email,
       userName:user.userName,
-      role:user.role
+      role:user.role,
+      isMax:user.isMax,
     },'secret');
 
     // store it on session object
     req.session = {
       jwt: userJwt
+    }
+
+    //publish egent created event
+    if(user.role == 'agent'){
+      await new AgentCreatedPublisher(natsWrapper.client).publish({
+        id: user._id,
+        userName: user.userName,
+        isMax: user.isMax 
+      })
     }
 
    

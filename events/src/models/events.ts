@@ -53,7 +53,8 @@ const eventSchema = new mongoose.Schema(
     },
     image: { type: String,
        required: false
-       }
+       },
+    
     // location: {
     //   lat: { type: Number, required: true },
     //   lng: { type: Number, required: true }

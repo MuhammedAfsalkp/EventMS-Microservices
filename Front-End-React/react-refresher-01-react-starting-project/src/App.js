@@ -18,6 +18,8 @@ import { AuthContext } from './shared/context/auth-context';
 import { EventContext } from './shared/context/event-context';
 import { useAuth } from './shared/hooks/auth-hook';
 import { useEvent } from './shared/hooks/event-hook';
+import UpdateEvent from './events/pages/UpdateEvent';
+import DetailsByAgent from './events/pages/DetailsByAgent';
 // import { useHttpClient } from './shared/hooks/http-hook';
 // import { useState,useEffect,useContext } from 'react'
 // import {useAuth} from './shared'
@@ -29,10 +31,10 @@ const App = () => {
   console.log("app")
 
 
-const { role, login, logout, currentUser,isLoggedIn, authMode,entry} = useAuth();
+const { role, login, logout, currentUser,isLoggedIn, authMode,entry,isMax,setMax} = useAuth();
  const { details,eventId,setId,setDetails} = useEvent();
 
-  console.log("in app cuser",currentUser)
+  console.log("in app uuser",currentUser)
   // useEffect(()=>{
   //   console.log("effect")
 
@@ -74,12 +76,18 @@ const { role, login, logout, currentUser,isLoggedIn, authMode,entry} = useAuth()
           <Route path="/:eventId/details" exact>
           <Details />
           </Route>
+          <Route path="/event/agent/:agentId/details" exact>
+          <DetailsByAgent />
+          </Route>
          < Route path="/events/new" exact>
           <AddEvent />
           </Route>
           < Route path="/orders" exact>
           <OrderedEvent />
           </Route>
+          <Route path="/events/:eventId">
+          <UpdateEvent />
+        </Route>
           < Route path="/agent/orders" exact>
           <AgentOrders />
           </Route>
@@ -109,6 +117,8 @@ const { role, login, logout, currentUser,isLoggedIn, authMode,entry} = useAuth()
         role,
         entry:entry,
         login: login,
+        isMax:isMax,
+        setMax: setMax,
         logout: logout,
         authMode:authMode
       }}
@@ -133,3 +143,6 @@ const { role, login, logout, currentUser,isLoggedIn, authMode,entry} = useAuth()
 };
 
 export default App;
+
+
+//isMax updation correctly reflecting on front end-set in currentUser

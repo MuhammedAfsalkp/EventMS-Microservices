@@ -8,6 +8,7 @@ import { createEventRouter } from './routes/new';
 import { showEventRouter } from './routes/show';
 import { indexEventRouter } from './routes/index';
 import { updateEventRouter } from './routes/update';
+import { showEventByAgentRouter } from './routes/showEventByAgent';
 const fs = require('fs');
 const path = require('path');
 
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT');
 
   next();
 });
@@ -41,6 +42,7 @@ app.use(createEventRouter);
 app.use(showEventRouter);
 app.use(indexEventRouter);
 app.use(updateEventRouter);
+app.use(showEventByAgentRouter);
 
 // app.use((error:Error, req:Request, res:Response, next:NextFunction) => {
 //   if (req.file) {

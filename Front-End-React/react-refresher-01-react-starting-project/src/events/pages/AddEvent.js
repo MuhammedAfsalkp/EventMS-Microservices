@@ -65,9 +65,17 @@ const AddEvent = () => {
        formData.append('price', formState.inputs.price.value);
       //  let body = {content:formData}
        console.log("formdata",Array.from(formData))
-      await sendRequest('http://localhost:8000/api/events', 'POST', formData);
-      history.push('/');
-    } catch (err) {}
+     await sendRequest('http://localhost:8000/api/events', 'POST', formData);
+     console.log("adding event.///////////////////")
+     console.log("first")
+     auth.setMax();
+    //  localStorage.setItem('isMax',true);
+     console.log("second")
+      history.push('/events');
+      console.log("third")
+    } catch (err) {
+      console.log("add event",err)
+    }
   };
 
   return (

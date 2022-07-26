@@ -27,7 +27,9 @@ router.put(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
+    console.log("updating")
     const event = await Event.findById(req.params.id);
+    console.log("got")
 
     if (!event) {
       throw new NotFoundError();

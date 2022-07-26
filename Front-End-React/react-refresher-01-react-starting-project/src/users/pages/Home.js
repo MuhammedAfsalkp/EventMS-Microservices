@@ -52,12 +52,13 @@ import './Home.css'
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import agnetImg from './img/Agent.jfif'
 import useImg from './img/user.jfif'
-import homeImg from './img/Home.jpg'
+// import homeImg from './img/Home.jpg'
 const Home = ()=>{
    const auth = useContext(AuthContext)
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
   //  const [currentUser, setCurrentUser] = useState(null);
- const {login} =auth;
+ const {login,isMax} =auth;
+ console.log("in home isMax",isMax,auth)
 
   useEffect(() => {
     console.log("effect")
@@ -72,7 +73,7 @@ const Home = ()=>{
         )
         console.log("resp",responseData)
         if(responseData.currentUser){
-        login({...responseData.currentUser})
+        login({...responseData.currentUser},isMax)
         }
 
         // setCurrentUser(responseData.currentUser);
@@ -90,11 +91,11 @@ const Home = ()=>{
             <LoadingSpinner />
           </div>
         )}
-        {!isLoading && auth.currentUser && <div className="home">
+        {!isLoading && auth.currentUser &&
+         <div className="home">
         <center><h1>WELCOME TO EVENTMS</h1></center>
         {/* <h2>{auth.currentUser.userName}</h2> */}
         <center> <h2>{auth.currentUser.role}</h2></center>
-
         </div>}
 
         {!isLoading && !auth.currentUser && <ul className="auth-list">

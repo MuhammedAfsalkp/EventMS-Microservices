@@ -9,26 +9,28 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import Button from '../../shared/components/FormElements/Button';
 import './Details.css'
-const Details = ()=>{
+const DetailsByAgent = ()=>{
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
     // const eve = useContext(EventContext);
     const auth = useContext(AuthContext);
     const [event,setLoadedEvent] = useState();
     const history = useHistory();
     // console.log("data",eve.details,eve.eventId)
-    const eventId = useParams().eventId;
+    const agentId = useParams().agentId;
+    console.log("agentId...... =",agentId)
 
     useEffect(() => {
         const fetchEvents = async () => {
           try {
             const responseData = await sendRequest(
-              `http://localhost:8000/api/events/${eventId}`
+              `http://localhost:8000/api/events/agent/${agentId}`
             );
+            console.log("resp....",responseData)
             setLoadedEvent(responseData);
           } catch (err) {}
         };
         fetchEvents();
-      }, [sendRequest,eventId]);
+      }, [sendRequest,agentId]);
 
       const orderCreateHandler = async () =>{
         try {
@@ -38,7 +40,7 @@ const Details = ()=>{
             'http://localhost:7000/api/orders',
             'POST',
             JSON.stringify({
-              eventId: eventId,
+              eventId: agentId,
             }),
             {
               'Content-Type': 'application/json'
@@ -76,8 +78,7 @@ const Details = ()=>{
                 <h3>{event.price}$</h3>
               </div>
               <div className="details-item__actions">
-                <Button  inverse> PAY </Button>
-                <Button onClick={orderCreateHandler}>ORDER</Button> 
+              <Button to={`/events/${event.id}`}>EDIT</Button>
               </div>
             </Card>
           </li> 
@@ -86,7 +87,4 @@ const Details = ()=>{
       );
 }
 
-export default Details;
-
-
-
+export default DetailsByAgent;

@@ -13,6 +13,7 @@ export const useAuth = () => {
   const [isLoggedIn,setLoggedIn]  = useState(false)
   const [entry,setEntry]  = useState('user')
   const [role,setRole] = useState('user')
+  const [isMax,setIsMax] = useState(false)
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const eve = useContext(EventContext)
 
@@ -22,12 +23,18 @@ export const useAuth = () => {
   // const history = useHistory();
   // const [tokenExpirationDate, setTokenExpirationDate] = useState();
 
-  const login = useCallback((CurrentUser) => {
+  const login = useCallback((CurrentUser,max) => {
+    // console.log("max value = ",max)
     console.log("ff",CurrentUser)
     console.log("LLLLLLOGING iN",CurrentUser.role,CurrentUser)
     // setToken(token);
+    console.log("value of is max ==",isMax)
     setcurrentUser(CurrentUser);
     setLoggedIn(true);
+    console.log(isMax,",,,,,,,,,,,,,,,")
+    let maxVal = CurrentUser.isMax?true:localStorage.getItem('isMax');
+    console.log(maxVal,"maxVal...")
+     setIsMax(maxVal)
     setRole(CurrentUser.role)
 
     // const tokenExpirationDate =
@@ -47,15 +54,19 @@ export const useAuth = () => {
     console.log("loging out")
     eve.setDetails(false);
     eve.setId(null);
+    
+    
+    // setToken(null);
+    setcurrentUser(null);
+    setLoggedIn(false);
+    localStorage.clear();
+    setIsMax(false)
+    setRole(null);
     const responseData = await sendRequest(
       'http://localhost:4000/api/users/signout',
       'POST',null,{}
     );
     console.log("logout response ",responseData)
-    // setToken(null);
-    setcurrentUser(null);
-    setLoggedIn(false);
-    setRole(null)
     // history.push('/auth');
 
    // setTokenExpirationDate(null);
@@ -66,6 +77,15 @@ export const useAuth = () => {
   const authMode = useCallback((mode) => {
     console.log("modeee")
     setEntry(mode);
+   
+  }, []);
+
+  const setMax = useCallback(() => {
+    console.log("seting max................")
+    localStorage.setItem('isMax',true);
+    setIsMax(true);
+    // setcurrentUser({...currentUser,isMax:true})
+    
    
   }, []);
 
@@ -90,7 +110,7 @@ export const useAuth = () => {
   //   }
   // }, [login]);
 
-  return {  role,login, logout, currentUser,isLoggedIn,authMode,entry};
+  return {  role,login, logout, currentUser,isLoggedIn,isMax,setMax,authMode,entry};
 };
 
 

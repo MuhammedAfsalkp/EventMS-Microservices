@@ -24,11 +24,11 @@ const EventItem = props => {
 
 //   const closeMapHandler = () => setShowMap(false);
 
-  const showDetailsHandler = () => {
-    eve.setDetails(true);
-    eve.setId(props.id);
-    history.push('/' + props.id + '/details');
-  };
+  // const showDetailsHandler = () => {
+  //   eve.setDetails(true);
+  //   eve.setId(props.id);
+  //   history.push('/' + props.id + '/details');
+  // };
 
   const orderCreateHandler = async () =>{
     try {
@@ -120,11 +120,14 @@ const EventItem = props => {
             <h3>{props.price}$</h3> */}
           </div>
           <div className="place-item__actions">
-            <Button  inverse onClick={showDetailsHandler} >
+            <Button  inverse to={`/${props.id}/details`} >
               VIEW DETAILS
             </Button>
+            {auth.currentUser.id === props.creatorId && (
+              <Button to={`/events/${props.id}`}>EDIT</Button>
+            )}
            
-              <Button onClick={orderCreateHandler}>ORDER</Button>
+             {auth.role === 'user'  &&  <Button onClick={orderCreateHandler}>ORDER</Button>}
           
 
            

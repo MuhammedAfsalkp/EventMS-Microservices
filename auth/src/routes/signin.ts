@@ -53,7 +53,8 @@ router.post(
         id: existingUser.id,
         email: existingUser.email,
         userName:existingUser.userName,
-        role:existingUser.role
+        role:existingUser.role,
+        isMax:existingUser.isMax,
       },
       'secret'
     );

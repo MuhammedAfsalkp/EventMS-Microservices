@@ -9,7 +9,7 @@ const NavLinks = props => {
   const auth = useContext(AuthContext);
   const eve = useContext(EventContext);
   console.log("navlink",auth)
-
+ 
   return (
     <ul className="nav-links">
       <li>
@@ -27,12 +27,12 @@ const NavLinks = props => {
           <NavLink to="/orders">Orders</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && eve.details &&  (
+      {auth.isLoggedIn && auth.role === 'agent' &&  auth.isMax  && (
         <li>
-          <NavLink to={`/${eve.eventId}/details`}>Details</NavLink>
+          <NavLink to={`/event/agent/${auth.currentUser.id}/details`}>Details</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && auth.role === 'agent' && (
+      {auth.isLoggedIn && auth.role === 'agent' &&  !auth.isMax &&(
         <li>
           <NavLink to="/events/new" exact>Add Event</NavLink>
         </li>
