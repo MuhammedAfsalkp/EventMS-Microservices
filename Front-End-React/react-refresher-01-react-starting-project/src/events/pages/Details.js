@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import Button from '../../shared/components/FormElements/Button';
+import Avatar from '../../shared/components/UIElements/Avatar';
 import './Details.css'
 const Details = ()=>{
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -63,11 +64,13 @@ const Details = ()=>{
          {!isLoading && event && ( <ul className="details-list"> <li className="details-item">
             <Card className="details-item__content">
               {isLoading && <LoadingSpinner asOverlay />}
+              <div className="details">
               <div className="details-item__image">
                 <img
                   src={`http://localhost:8000/${event.image}`}
                   alt={event.title}
                 />
+                {/* <Avatar className="details" image={`http://localhost:8000/${event.image}`} alt={event.title} /> */}
               </div>
               <div className="details-item__info">
                 <h2>{event.title}</h2>
@@ -75,9 +78,10 @@ const Details = ()=>{
                 <p>{event.description}</p>
                 <h3>{event.price}$</h3>
               </div>
+              </div>
               <div className="details-item__actions">
-                <Button  inverse> PAY </Button>
-                <Button onClick={orderCreateHandler}>ORDER</Button> 
+                { auth.role === 'user' && (<Button  inverse> PAY </Button>)}
+                {auth.role === 'user' && (<Button onClick={orderCreateHandler}>ORDER</Button>) }
               </div>
             </Card>
           </li> 

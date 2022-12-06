@@ -120,7 +120,7 @@ const EventItem = props => {
             <h3>{props.price}$</h3> */}
           </div>
           <div className="place-item__actions">
-            <Button  inverse to={`/${props.id}/details`} >
+            <Button   to={`/${props.id}/details`} >
               VIEW DETAILS
             </Button>
             {auth.currentUser.id === props.creatorId && (

@@ -1,12 +1,15 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { requireAuth, validateRequest,validateRole,BadRequestError } from '@iyaa-eventms/common';
 import { Event } from '../models/events';
 import { Agent } from '../models/agents';
+const sharp = require('sharp')
 import { EventCreatedPublisher } from '../event/publishers/event-created-publisher';
 import { natsWrapper } from '../nats-wrapper';
 // const fileUpload = require('../middleware/');
 import {fileUpload} from '../middleware/file-upload'
+const path = require('path')
+const fs = require('fs')
 
 const router = express.Router();
 
@@ -28,10 +31,10 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    console.log("creating event")
-    const { title, price,description,address} = req.body;
+    console.log("creating event",req.file)
+    const { title, price,description,address,image} = req.body;
     // let image = (req as MulterRequest).file.path;
-    console.log(title,price,description,address)
+    console.log(title,price,description,address,image)
 
      //check maximum event has been added or not by the curresponding agent?
       const agent = await Agent.findById( req.currentUser!.id);
@@ -40,6 +43,13 @@ router.post(
         throw new BadRequestError('Already created an event');
 
       }
+      // await sharp(req?.file?.path)
+      // .resize(500)
+      // .jpeg({quality: 50})
+      // .toFile(
+      //     path.resolve(req?.file?.destination,'resized',image)
+      // )
+      // fs.unlinkSync(req?.file?.path)
 
 
     const event = Event.build({

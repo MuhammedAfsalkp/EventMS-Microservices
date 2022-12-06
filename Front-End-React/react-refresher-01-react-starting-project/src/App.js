@@ -36,7 +36,7 @@ const { role, login, logout, currentUser,isLoggedIn, authMode,entry,isMax,setMax
 
   console.log("in app uuser",currentUser)
   // useEffect(()=>{
-  //   console.log("effect")
+  //   console.log("effect")-
 
   //   async function fetchApi(){
 

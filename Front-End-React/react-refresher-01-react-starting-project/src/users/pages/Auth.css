@@ -8,6 +8,14 @@
   max-width: 25rem;
   margin: 7rem auto;
   text-align: center;
+  transform: translate((-50%,-50%));
+  background: rgba(0,0,0,0.5);
+  box-sizing: border-box;
+  color: white;
+  
+}
+.authentication h2{
+  color: white;
 }
 
 .authentication form {

@@ -61,7 +61,7 @@ const Home = ()=>{
  console.log("in home isMax",isMax,auth)
 
   useEffect(() => {
-    console.log("effect")
+    console.log("effect Home...................")
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
